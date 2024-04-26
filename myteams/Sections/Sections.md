@@ -1,0 +1,1 @@
+Sections store elements which must be save

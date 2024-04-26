@@ -1,0 +1,148 @@
+EPITECH MyTeams Protocol
+
+
+The following are the MyTeams commands from client to server:
+
+        /help <LF>                                                      : show help
+        /login ["user_name"] <LF>                                       : set the user_name used by client
+        /logout <LF>                                                    : disconnect the client from the server
+        /users <LF>                                                     : get the list of all users that exist on the domain
+        /user ["user_uuid"] <LF>                                        : get details about the requested user
+        /send ["user_uuid"] ["message_body"] <LF>                       : send a message to specific user
+        /messages ["user_uuid"] <LF>                                    : list all messages exchanged with the specified user
+        /subscribe ["team_uuid"] <LF>                                   : subscribe to the events of a team and its sub directories (enable reception of all events from a team)
+        /subscribed ?["team_uuid"] <LF>                                 : list all subscribed teams or list all users subscribed to a team
+        /unsubscribe ["team_uuid"] <LF>                                 : unsubscribe from a team
+        /use ?["team_uuid"] ?["channel_uuid"] ?["thread_uuid"] <LF>     : Sets the command context to a team/channel/thread
+
+        /create <LF>                                                    : based on the context, create the sub resource
+            - When the context is not defined (/use):
+                /create ["team_name"] ["team_description"]                  : create a new team
+            - When team_uuid is defined (/use "team_uuid"):
+                /create ["channel_name"] ["channel_description"]            : create a new channel
+            - When team_uuid and channel_uuid are defined
+              (/use "team_uuid" "channel_uuid"):
+                /create ["thread_title"] ["thread_message"]                 : create a new thread
+            - When team_uuid, channel_uuid and thread_uuid are defined
+              (/use "team_uuid" "channel_uuid" "thread_uuid"):
+                /create ["comment_body"]                                    : create a new reply
+
+        /list <LF>                                                      : based on the context, list all the sub resources
+            - When the context is not defined (/use):
+                /list                                                       : list all existing teams
+            - When team_uuid is defined (/use “team_uuid”):
+                /list                                                       : list all existing channels
+            - When team_uuid and channel_uuid are defined
+              (/use “team_uuid” “channel_uuid”):
+                /list                                                       : list all existing threads
+            - When team_uuid, channel_uuid and thread_uuid are defined
+              (/use “team_uuid” “channel_uuid” “thread_uuid”):
+                /list                                                       : list all existing replies
+
+        /info <LF>                                                      : based on the context, display details of the current resource
+            - When the context is not defined (/use):
+                /info                                                       : display currently logged-in user details
+            - When team_uuid is defined (/use “team_uuid”):
+                /info                                                       : display currently selected team details
+            - When team_uuid and channel_uuid are defined
+              (/use “team_uuid” “channel_uuid”):
+                /info                                                       : display currently selected channel details
+            - When team_uuid, channel_uuid and thread_uuid are defined
+              (/use “team_uuid” “channel_uuid” “thread_uuid”):
+                /info                                                       : display currently selected thread details
+
+
+-> : Request command from client to server
+<- : Reply from server to client
+
+        Connection Establishment
+           <- 220
+
+        /help ->
+            <-  200
+        /login ->
+            <-  200
+            <-  400
+        /logout ->
+            <-  221
+            <-  400
+        /users ->
+            <-  204
+        /user ->
+            <-  240
+        /send ->
+            <-  202
+            <-  400
+        /messages ->
+            <-  206
+            <-  400
+        /subscribe ->
+            <-  250
+            <-  400
+        /subscribed ->
+            <-  200
+            <-  400
+        /unsubscribe ->
+            <-  251
+            <-  400
+            <-  411
+        /use ->
+            <-  200
+            <-  411
+            <-  412
+            <-  413
+        /create ->
+            <-  201
+            <-  260
+            <-  261
+            <-  262
+            <-  263
+            <-  400
+            <-  500
+        /list ->
+            <-  205
+            <-  206
+            <-  207
+            <-  208
+        /info ->
+            <-  240
+            <-  241
+            <-  242
+            <-  243
+
+
+Numeric Order List of Reply Codes (Extract)
+
+        200 OK
+        201 Created
+        202 Message received
+        203 Messages list
+        204 Users list
+        205 Team list
+        206 Channel list
+        207 Thread list
+        208 Reply list
+        220 Connected
+        221 Disconnected
+        240 User print
+        241 Team print
+        242 Channel print
+        243 Thread print
+        250 Subscribed
+        251 Unsubscribed
+        260 Team notification
+        261 Channel notification
+        262 Thread notification
+        263 Reply notification
+
+        400 Bad request
+        401 Unauthorized
+        404 Not found
+        409 Already exist
+        410 Unknown user
+        411 Unknown team
+        412 Unknown channel
+        413 Unknown thread
+
+        500 Internal error
+        501 Not implemented
