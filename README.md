@@ -6,4 +6,4 @@
 - `make`
 - `export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:./libs/myteams`
 - `./myteams_server <port>`
-- `./myteams_server <ip> <port>`
+- `./myteams_cli <ip> <port>`
